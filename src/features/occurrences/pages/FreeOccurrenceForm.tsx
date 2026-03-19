@@ -27,7 +27,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 
-import { EMPLOYEES } from "@/constants/employees";
 
 // Schema
 const freeOccurrenceSchema = z.object({
@@ -273,19 +272,10 @@ export default function FreeOccurrenceForm() {
                                                 name="employeeName"
                                                 render={({ field }) => (
                                                     <FormItem>
-                                                        <FormLabel>Selecione o Funcionário</FormLabel>
-                                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                            <FormControl>
-                                                                <SelectTrigger>
-                                                                    <SelectValue placeholder="Selecione..." />
-                                                                </SelectTrigger>
-                                                            </FormControl>
-                                                            <SelectContent>
-                                                                {EMPLOYEES.map(emp => (
-                                                                    <SelectItem key={emp} value={emp}>{emp}</SelectItem>
-                                                                ))}
-                                                            </SelectContent>
-                                                        </Select>
+                                                        <FormLabel>Nome do Funcionário</FormLabel>
+                                                        <FormControl>
+                                                            <Input {...field} placeholder="Nome do funcionário" />
+                                                        </FormControl>
                                                         <FormMessage />
                                                     </FormItem>
                                                 )}
