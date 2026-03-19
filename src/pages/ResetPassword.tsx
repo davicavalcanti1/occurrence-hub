@@ -95,7 +95,7 @@ export default function ResetPassword() {
             <ShieldCheck className="h-8 w-8 text-primary" />
           </div>
           <h1 className="text-2xl font-bold text-foreground">
-            Ocorrências Imago
+            Central de Ocorrências
           </h1>
         </div>
 

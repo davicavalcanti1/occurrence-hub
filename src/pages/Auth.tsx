@@ -3,7 +3,7 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Eye, EyeOff, Loader2, Mail, Lock, ArrowRight } from "lucide-react";
+import { Eye, EyeOff, Loader2, Mail, Lock, ArrowRight, ShieldAlert } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,8 +18,6 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import imagoLogo from "@/assets/imago-logo.png";
-import imagoLoginCover from "@/assets/imago-login-cover.png";
 
 const loginSchema = z.object({
   email: z.string().email("Email inválido"),
@@ -125,13 +123,8 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center p-4 relative overflow-hidden bg-background">
-      {/* Background with building image and sophisticated overlay */}
+      {/* Background overlay */}
       <div className="absolute inset-0 z-0 select-none">
-        <img
-          src={imagoLoginCover}
-          alt="Background cover"
-          className="w-full h-full object-cover opacity-20 lg:opacity-30 transition-opacity duration-1000"
-        />
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background/60 to-background/95" />
         <div className="absolute inset-0 backdrop-blur-[2px]" />
       </div>
@@ -144,23 +137,24 @@ export default function Auth() {
           <div className="absolute -top-24 -left-24 h-96 w-96 bg-primary/20 blur-[100px] rounded-full animate-pulse" />
 
           <div className="relative z-10 transition-transform duration-700 hover:scale-105">
-            <img
-              src={imagoLogo}
-              alt="Imago Logo"
-              className="w-48 h-auto object-contain drop-shadow-md"
-            />
+            <div className="flex items-center gap-3">
+              <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center">
+                <ShieldAlert className="h-7 w-7 text-white" />
+              </div>
+              <span className="font-bold text-xl text-foreground">Central de Ocorrências</span>
+            </div>
           </div>
 
           <div className="relative z-10 space-y-6">
             <div className="space-y-2">
               <h1 className="text-4xl xl:text-5xl font-extrabold text-[#111827] leading-tight tracking-tight">
-                Sistema de Gestão <br />
-                <span className="text-primary italic">de Ocorrências</span>
+                Gestão de <br />
+                <span className="text-primary italic">Ocorrências</span>
               </h1>
               <div className="h-1.5 w-20 bg-primary rounded-full" />
             </div>
             <p className="text-lg xl:text-xl text-muted-foreground font-medium max-w-xs">
-              Excelência e segurança em cada diagnóstico por imagem.
+              Registro e acompanhamento de ocorrências em tempo real.
             </p>
           </div>
         </div>
@@ -169,11 +163,12 @@ export default function Auth() {
         <div className="flex flex-col justify-center p-8 lg:p-14 bg-white/40">
           {/* Mobile Logo Only */}
           <div className="lg:hidden flex items-center justify-center mb-10">
-            <img
-              src={imagoLogo}
-              alt="Imago Logo"
-              className="h-14 w-auto object-contain"
-            />
+            <div className="flex items-center gap-2">
+              <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
+                <ShieldAlert className="h-5 w-5 text-white" />
+              </div>
+              <span className="font-bold text-lg text-foreground">Central de Ocorrências</span>
+            </div>
           </div>
 
           <div className="text-left mb-10">
@@ -202,7 +197,7 @@ export default function Auth() {
                           <Input
                             {...field}
                             type="email"
-                            placeholder="exemplo@imago.com.br"
+                            placeholder="seu@email.com"
                             className="pl-12 h-14 bg-white/70 border-white/30 focus:bg-white focus:border-primary transition-all text-lg rounded-xl shadow-sm"
                           />
                         </div>

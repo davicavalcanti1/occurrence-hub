@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
-import imagoLogo from "@/assets/imago-logo.png";
-import imagoLoginCover from "@/assets/imago-login-cover.png";
+import { ShieldAlert } from "lucide-react";
 
 interface PublicFormLayoutProps {
     children: ReactNode;
@@ -29,20 +28,14 @@ export function PublicFormLayout({
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
             {/* Background Pattern */}
-            <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.03]">
-                <img
-                    src={imagoLoginCover}
-                    alt="bg"
-                    className="w-full h-full object-cover"
-                />
-            </div>
+            <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.03]" />
 
             {/* Header */}
             <header className={`w-full ${headerColor} text-white shadow-lg sticky top-0 z-50`}>
                 <div className="max-w-md mx-auto px-4 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="bg-white/10 p-1.5 rounded-lg backdrop-blur-sm">
-                            <img src={imagoLogo} alt="Imago" className="h-6 w-auto brightness-0 invert" />
+                            <ShieldAlert className="h-6 w-6 text-white" />
                         </div>
                         <div>
                             <h1 className="font-bold text-lg leading-tight">{title}</h1>
@@ -61,8 +54,7 @@ export function PublicFormLayout({
 
             {/* Footer */}
             <footer className="w-full text-center py-6 text-gray-400 text-xs relative z-10">
-                <p>© 2026 Imago Diagnóstica</p>
-                <p>Sistema de Controle Operacional</p>
+                <p>© 2026 Central de Ocorrências Digital</p>
             </footer>
         </div>
     );

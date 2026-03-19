@@ -76,7 +76,7 @@ let cachedLogoBase64: string | null = null;
 export async function loadLogoBase64(): Promise<string | null> {
   if (cachedLogoBase64) return cachedLogoBase64;
   try {
-    const response = await fetch("/images/imago-logo.png");
+    const response = await fetch("/images/logo.png");
     if (!response.ok) return null;
     const blob = await response.blob();
     return new Promise((resolve) => {
@@ -205,7 +205,7 @@ export function generateOccurrencePDF({
 
   // Use public token for the link if available
   const publicToken = occurrence.publicToken || occurrence.id; // Fallback to ID if token missing (internal use)
-  const appUrl = "https://gestao.imagoradiologia.cloud";
+  const appUrl = window.location.origin;
   // If we have a public token, use the public route, otherwise regular route
   const linkPath = occurrence.publicToken ? `/public/imagens/${publicToken}` : `/ocorrencias/${occurrence.id}`;
   const qrData = `${appUrl}${linkPath}`;

@@ -4,16 +4,12 @@ import {
   Home,
   FileText,
   Columns3,
-  BarChart3,
   Settings,
   User,
   LogOut,
   ChevronDown,
-  SlidersHorizontal,
-  Package,
   BookOpen,
-  CheckCircle2,
-  Gauge
+  ShieldAlert,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -25,7 +21,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
-import imagoLogo from "@/assets/imago-logo-transparent.png";
 
 export function TopNav() {
   const location = useLocation();
@@ -42,40 +37,11 @@ export function TopNav() {
 
   // Filter nav links based on role (Configurações is only in the dropdown)
   const navLinks = [
-    { href: "/", label: "Início", icon: Home, adminOnly: false },
-    { href: "/ocorrencias", label: "Ocorrências", icon: FileText, adminOnly: false },
-    { href: "/kanbans", label: "Kanbans", icon: Columns3, adminOnly: false },
-    { href: "/inspecoes", label: "Inspeções", icon: CheckCircle2, adminOnly: false },
-    { href: "/analise", label: "Análise", icon: SlidersHorizontal, adminOnly: true },
-    { href: "/relatorios", label: "Dashboard", icon: BarChart3, adminOnly: false },
-    { href: "/livro", label: "Livro", icon: BookOpen, adminOnly: false },
-    { href: "/ultrassom", label: "Farol USG", icon: Gauge, adminOnly: false },
-
-  ].filter(link => {
-    if (link.adminOnly && !isAdmin) return false;
-
-    // Explicit exclusions for RH and Enfermagem
-    if (role === 'rh') {
-      // RH sees Home, Ocorrencias, Kanbans, Inspecoes, Dashboard (restricted)
-      if (link.href === '/analise') return false;
-    }
-
-    if (role === 'enfermagem') {
-      // Enfermagem sees Home, Ocorrencias, Kanbans, Inspecoes, Dashboard (restricted)
-      if (link.href === '/analise') return false;
-    }
-
-    if (role === 'user') {
-      if (link.href === '/livro') return false;
-      if (link.href === '/analise') return false;
-      if (link.href === '/inspecoes') return false;
-    }
-
-    // Default role checks (if any specific allowedRoles existed, check them)
-    if ((link as any).allowedRoles && (!role || !(link as any).allowedRoles.includes(role))) return false;
-
-    return true;
-  });
+    { href: "/", label: "Início", icon: Home },
+    { href: "/ocorrencias", label: "Ocorrências", icon: FileText },
+    { href: "/kanbans", label: "Kanban", icon: Columns3 },
+    { href: "/livro", label: "Livro", icon: BookOpen },
+  ];
 
   const handleLogout = async () => {
     await signOut();
@@ -89,19 +55,18 @@ export function TopNav() {
       {/* Main header container */}
       <div className="bg-white border border-border/40 rounded-b-2xl shadow-sm mb-2">
         <div className="flex h-[76px] items-center justify-between px-10">
-          {/* Left: Logo */}
+          {/* Left: Brand */}
           <div className="flex items-center flex-shrink-0">
-            <Link to="/" className="flex items-center">
-              <img
-                src={imagoLogo}
-                alt="Sistema de ocorrências"
-                className="h-10 w-auto object-contain scale-[1.8] origin-left ml-2"
-              />
+            <Link to="/" className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
+                <ShieldAlert className="h-4 w-4 text-white" />
+              </div>
+              <span className="font-bold text-sm text-foreground hidden sm:block">Central de Ocorrências</span>
             </Link>
           </div>
 
-          {/* Center: Navigation Links - shifted right */}
-          <nav className="hidden lg:flex items-center gap-1 ml-24">
+          {/* Center: Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-1 ml-8">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.href;
 

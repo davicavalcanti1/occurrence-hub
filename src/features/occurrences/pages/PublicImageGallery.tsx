@@ -9,8 +9,6 @@ import {
     Info
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import imagoLogo from "@/assets/imago-logo-transparent.png";
-import imagoLoginCover from "@/assets/imago-login-cover.png";
 import { AttachmentGallery } from "@/features/occurrences/components/attachments/AttachmentGallery";
 import type { Attachment } from "@/features/occurrences/hooks/useAttachments";
 import { format } from "date-fns";
@@ -123,11 +121,6 @@ export default function PublicImageGallery() {
         <div className="min-h-screen bg-background relative overflow-x-hidden font-sans antialiased">
             {/* Global Background */}
             <div className="fixed inset-0 z-0 select-none pointer-events-none">
-                <img
-                    src={imagoLoginCover}
-                    alt="Background"
-                    className="w-full h-full object-cover opacity-[0.08]"
-                />
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background/80 to-background/95" />
             </div>
 
@@ -135,7 +128,7 @@ export default function PublicImageGallery() {
             <header className="sticky top-0 z-50 w-full border-b border-white/40 bg-white/70 backdrop-blur-md shadow-sm">
                 <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <img src={imagoLogo} alt="IMAGO" className="h-10 w-auto" />
+                        <span className="font-bold text-primary text-lg">Central de Ocorrências</span>
                         <div className="hidden sm:block">
                             <h1 className="font-semibold text-foreground text-lg">
                                 Visualização de Evidências
@@ -211,7 +204,7 @@ export default function PublicImageGallery() {
             {/* Footer */}
             <footer className="border-t border-white/20 bg-white/40 backdrop-blur-md mt-auto">
                 <div className="container mx-auto px-4 py-6 text-center text-sm text-muted-foreground">
-                    <p className="font-medium">Imago 2026 Productions</p>
+                    <p className="font-medium">Central de Ocorrências Digital</p>
                 </div>
             </footer>
         </div>

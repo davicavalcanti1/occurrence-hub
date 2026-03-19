@@ -212,7 +212,7 @@ export function generateAdminOccurrencePDF(occurrence: AdministrativeOccurrence,
             doc.setFont("helvetica", "bold");
             doc.setFontSize(8);
             setPrimary();
-            doc.text("Imago diagnóstico por imagem", marginX, pageHeight - 10);
+            doc.text("Central de Ocorrências Digital", marginX, pageHeight - 10);
 
             doc.setFont("helvetica", "normal");
             doc.setFontSize(7);

@@ -1,6 +1,5 @@
 import { TopNav } from "./TopNav";
 import { Sidebar } from "./Sidebar";
-import imagoLoginCover from "@/assets/imago-login-cover.png";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -11,11 +10,6 @@ export function MainLayout({ children }: MainLayoutProps) {
     <div className="min-h-screen bg-background relative overflow-x-hidden font-sans antialiased">
       {/* Global Background */}
       <div className="fixed inset-0 z-0 select-none pointer-events-none">
-        <img
-          src={imagoLoginCover}
-          alt="Background"
-          className="w-full h-full object-cover opacity-[0.08]"
-        />
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background/80 to-background/95" />
       </div>
 
@@ -36,7 +30,7 @@ export function MainLayout({ children }: MainLayoutProps) {
             <footer className="py-6 text-center text-xs text-muted-foreground border-t border-border/40 bg-background/30 backdrop-blur-sm mt-auto">
               <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">
                 <span className="text-balance text-center leading-loose">
-                  Sistema de Gestão - Imago Diagnóstico por Imagem v3.1.1
+                  Central de Ocorrências Digital
                 </span>
               </div>
             </footer>

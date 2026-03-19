@@ -4,7 +4,6 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Loader2, FileText, AlertTriangle, CheckCircle2, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import imagoLogo from "@/assets/imago-logo-transparent.png";
 
 interface OccurrencePublic {
   id: string;
@@ -96,7 +95,7 @@ export default function PublicOcorrencia() {
       {/* Header */}
       <div className="bg-white border-b shadow-sm">
         <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
-          <img src={imagoLogo} alt="Logo" className="h-10 w-auto object-contain" />
+          <span className="font-bold text-primary">Central de Ocorrências</span>
           <div className="text-right">
             <p className="text-xs text-gray-400">Ocorrência</p>
             <p className="font-mono font-bold text-gray-800">{occurrence.protocolo}</p>

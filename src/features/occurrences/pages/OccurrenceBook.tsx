@@ -126,7 +126,7 @@ export default function OccurrenceBook() {
                                 <h2 className="text-xl font-serif font-bold text-gray-700">
                                     {selectedSector === 'administrativo' ? 'Livro Administrativo' : 'Livro Enfermagem'}
                                 </h2>
-                                <p className="text-sm text-gray-500 mt-1">Imago Radiologia</p>
+                                <p className="text-sm text-gray-500 mt-1">Central de Ocorrências</p>
                             </div>
                             <div className="text-right">
                                 <div className="text-2xl font-serif font-bold text-primary">
