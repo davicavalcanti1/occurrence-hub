@@ -32,7 +32,6 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Calendar } from "@/components/ui/calendar";
-import { MEDICOS } from "@/constants/doctors";
 
 // Lista de tipos de exame
 const tiposExame = [
@@ -105,7 +104,6 @@ export function RevisaoExameForm({ form, pendingFiles = [], onFilesChange }: Rev
   const dados = (form.watch("dadosEspecificos") as any) || {};
   const [openTipoExame, setOpenTipoExame] = useState(false);
   const [openRegiao, setOpenRegiao] = useState(false);
-  const [openMedico, setOpenMedico] = useState(false);
 
   const updateDados = (field: string, value: any) => {
     form.setValue(`dadosEspecificos.${field}` as any, value, {
@@ -117,7 +115,6 @@ export function RevisaoExameForm({ form, pendingFiles = [], onFilesChange }: Rev
 
   const selectedTipoExame = tiposExame.find(t => t.value === dados.exameModalidade);
   const selectedRegiao = regioesAnatomicas.find(r => r.value === dados.exameRegiao);
-  const selectedMedico = MEDICOS.find(m => m.id === dados.medicoResponsavelId);
 
   return (
     <div className="space-y-6">
@@ -285,52 +282,14 @@ export function RevisaoExameForm({ form, pendingFiles = [], onFilesChange }: Rev
 
 
 
-          {/* Médico Responsável - Combobox com busca */}
+          {/* Médico Responsável */}
           <div className="space-y-2">
             <FormLabel>Médico Responsável pelo Laudo</FormLabel>
-            <Popover open={openMedico} onOpenChange={setOpenMedico}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={openMedico}
-                  className="w-full justify-between bg-background"
-                >
-                  {selectedMedico?.nome || "Selecione o médico..."}
-                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-full p-0 z-50" align="start">
-                <Command>
-                  <CommandInput placeholder="Buscar médico..." />
-                  <CommandList>
-                    <CommandEmpty>Nenhum médico encontrado.</CommandEmpty>
-                    <CommandGroup>
-                      {MEDICOS.map((medico) => (
-                        <CommandItem
-                          key={medico.id}
-                          value={medico.nome} // Search by name
-                          onSelect={() => {
-                            // Force value update
-                            updateDados("medicoResponsavelId", medico.id);
-                            updateDados("medicoResponsavel", medico.nome);
-                            setOpenMedico(false);
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              dados.medicoResponsavelId === medico.id ? "opacity-100" : "opacity-0"
-                            )}
-                          />
-                          {medico.nome}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
+            <Input
+              placeholder="Nome do médico responsável"
+              value={dados.medicoResponsavel || ""}
+              onChange={(e) => updateDados("medicoResponsavel", e.target.value)}
+            />
           </div>
         </div>
 

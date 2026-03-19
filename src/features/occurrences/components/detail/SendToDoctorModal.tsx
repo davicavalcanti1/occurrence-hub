@@ -1,5 +1,5 @@
-import { useState, useMemo, useEffect } from "react";
-import { Loader2, Send, User, Search } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Loader2, Send, User } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -11,25 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
-
-// Lista de médicos
-import { MEDICOS } from "@/constants/doctors";
 import { generateSecureToken } from "@/lib/utils/token";
 
 interface SendToDoctorModalProps {
@@ -68,32 +50,23 @@ export function SendToDoctorModal({
   onSuccess,
 }: SendToDoctorModalProps) {
   const { toast } = useToast();
-  const [medicoId, setMedicoId] = useState("");
+  const [medicoNome, setMedicoNome] = useState("");
   const [mensagem, setMensagem] = useState("");
   const [isSending, setIsSending] = useState(false);
-  const [medicoPopoverOpen, setMedicoPopoverOpen] = useState(false);
 
   // Set initial values when modal opens
   useEffect(() => {
     if (open) {
       if (initialMensagem) setMensagem(initialMensagem);
-      if (initialMedicoNome) {
-        const medico = MEDICOS.find(m => m.nome === initialMedicoNome);
-        if (medico) setMedicoId(medico.id);
-      }
+      if (initialMedicoNome) setMedicoNome(initialMedicoNome);
     } else {
-      // Reset if needed when closing, or leave as is. 
-      // User might want to keep what they typed if they accidentally close?
-      // Usually, resetting is safer for a "fresh" modal experience.
-      if (!initialMedicoNome) setMedicoId("");
+      if (!initialMedicoNome) setMedicoNome("");
       if (!initialMensagem) setMensagem("");
     }
   }, [open, initialMedicoNome, initialMensagem]);
 
-  const medicoSelecionado = MEDICOS.find((m) => m.id === medicoId);
-
   const handleSend = async () => {
-    if (!medicoId || !mensagem.trim()) {
+    if (!medicoNome.trim() || !mensagem.trim()) {
       toast({
         title: "Campos obrigatórios",
         description: "Selecione um médico e escreva uma mensagem.",
@@ -128,7 +101,7 @@ export function SendToDoctorModal({
         status_de: (currentData as any)?.status || "em_triagem",
         status_para: "em_analise",
         alterado_por: userId,
-        motivo: `Encaminhada ao médico: ${medicoSelecionado?.nome}`,
+        motivo: `Encaminhada ao médico: ${medicoNome}`,
         alterado_em: new Date().toISOString()
       };
 
@@ -137,7 +110,7 @@ export function SendToDoctorModal({
         .from("occurrences_laudo" as any)
         .update({
           public_token: publicToken,
-          medico_destino: medicoSelecionado?.nome,
+          medico_destino: medicoNome,
           mensagem_admin_medico: mensagem,
           encaminhada_em: new Date().toISOString(),
           status: "em_analise",
@@ -202,7 +175,7 @@ export function SendToDoctorModal({
             occurrence_id: occurrenceId,
             protocolo,
             mensagem_admin: mensagem,
-            medico: medicoSelecionado?.nome,
+            medico: medicoNome,
             medico_id: medicoId,
             public_link: publicLink,
             paciente_nome: pacienteNome,
@@ -221,10 +194,10 @@ export function SendToDoctorModal({
 
       toast({
         title: "Encaminhado com sucesso",
-        description: `Ocorrência enviada para ${medicoSelecionado?.nome}`,
+        description: `Ocorrência enviada para ${medicoNome}`,
       });
 
-      onSuccess(publicToken, medicoSelecionado?.nome || "");
+      onSuccess(publicToken, medicoNome || "");
       onOpenChange(false);
     } catch (error: any) {
       console.error("Erro ao encaminhar:", error);
@@ -255,47 +228,11 @@ export function SendToDoctorModal({
         <div className="space-y-4 py-4">
           <div className="space-y-2">
             <Label>Médico *</Label>
-            <Popover open={medicoPopoverOpen} onOpenChange={setMedicoPopoverOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={medicoPopoverOpen}
-                  className="w-full justify-between"
-                >
-                  {medicoSelecionado ? medicoSelecionado.nome : "Pesquisar médico..."}
-                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-full p-0 bg-popover" align="start">
-                <Command>
-                  <CommandInput placeholder="Pesquisar médico..." />
-                  <CommandList>
-                    <CommandEmpty>Nenhum médico encontrado.</CommandEmpty>
-                    <CommandGroup>
-                      {MEDICOS.map((medico) => (
-                        <CommandItem
-                          key={medico.id}
-                          value={medico.nome}
-                          onSelect={() => {
-                            setMedicoId(medico.id);
-                            setMedicoPopoverOpen(false);
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              medicoId === medico.id ? "opacity-100" : "opacity-0"
-                            )}
-                          />
-                          {medico.nome}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
+            <Input
+              placeholder="Nome do médico"
+              value={medicoNome}
+              onChange={(e) => setMedicoNome(e.target.value)}
+            />
           </div>
 
           <div className="space-y-2">

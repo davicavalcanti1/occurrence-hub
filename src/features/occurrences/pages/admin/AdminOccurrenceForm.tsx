@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowLeft, CalendarIcon, Upload, Loader2, Save, Check, ChevronsUpDown } from "lucide-react";
+import { ArrowLeft, CalendarIcon, Upload, Loader2, Save } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
@@ -15,14 +15,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 
@@ -30,7 +22,6 @@ import { ADMIN_OCCURRENCE_TYPES } from "@/features/occurrences/lib/admin-occurre
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 
-import { EMPLOYEES } from "@/constants/employees";
 
 const formSchema = z.object({
     employeeName: z.string().min(3, "Nome do funcionário é obrigatório"),
@@ -45,7 +36,6 @@ export default function AdminOccurrenceForm() {
     const { toast } = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-    const [open, setOpen] = useState(false);
 
     // Validate Type and Subtype
     const selectedType = ADMIN_OCCURRENCE_TYPES.find((t) => t.id === typeId);
@@ -178,58 +168,11 @@ export default function AdminOccurrenceForm() {
                             control={form.control}
                             name="employeeName"
                             render={({ field }) => (
-                                <FormItem className="flex flex-col">
+                                <FormItem>
                                     <FormLabel>Nome do Funcionário</FormLabel>
-                                    <Popover open={open} onOpenChange={setOpen}>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant="outline"
-                                                    role="combobox"
-                                                    aria-expanded={open}
-                                                    className={cn(
-                                                        "w-full justify-between",
-                                                        !field.value && "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value
-                                                        ? EMPLOYEES.find((employee) => employee === field.value)
-                                                        : "Selecione o funcionário"}
-                                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
-                                            <Command>
-                                                <CommandInput placeholder="Buscar funcionário..." />
-                                                <CommandList>
-                                                    <CommandEmpty>Funcionário não encontrado.</CommandEmpty>
-                                                    <CommandGroup>
-                                                        {EMPLOYEES.map((employee) => (
-                                                            <CommandItem
-                                                                value={employee}
-                                                                key={employee}
-                                                                onSelect={() => {
-                                                                    form.setValue("employeeName", employee);
-                                                                    setOpen(false);
-                                                                }}
-                                                            >
-                                                                <Check
-                                                                    className={cn(
-                                                                        "mr-2 h-4 w-4",
-                                                                        employee === field.value
-                                                                            ? "opacity-100"
-                                                                            : "opacity-0"
-                                                                    )}
-                                                                />
-                                                                {employee}
-                                                            </CommandItem>
-                                                        ))}
-                                                    </CommandGroup>
-                                                </CommandList>
-                                            </Command>
-                                        </PopoverContent>
-                                    </Popover>
+                                    <FormControl>
+                                        <Input {...field} placeholder="Nome do funcionário" />
+                                    </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
