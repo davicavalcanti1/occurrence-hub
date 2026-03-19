@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(dir \"C:\\\\Users\\\\USER\\\\Desktop\\\\ocorrencias-main\\(4\\)\\\\src\\\\components\\\\ui\"\" | grep \".tsx \")"
+    ]
+  }
+}
